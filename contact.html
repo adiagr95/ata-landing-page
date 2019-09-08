@@ -21,7 +21,8 @@
     <link rel="stylesheet" href="css/aos.css">
 
     <link rel="stylesheet" href="css/style.css">
-    
+
+
   </head>
   <body>
   
@@ -54,9 +55,7 @@
           <div class="row">
             <div class="col-md-7 mb-5">
 
-
-
-              <form action="#" class="p-5 bg-white">
+              <form id="contact_form" method="post" class="p-5 bg-white">
 
                 <h2 class="h4 text-black mb-5">Contact Form</h2>
 
@@ -82,8 +81,8 @@
                 <div class="row form-group">
 
                   <div class="col-md-12">
-                    <label class="text-black" for="subject">Subject</label>
-                    <input type="subject" id="subject" class="form-control" required>
+                    <label class="text-black" for="mobile">Mobile</label>
+                    <input type="tel" id="mobile" class="form-control" required>
                   </div>
                 </div>
 
@@ -113,7 +112,7 @@
                 <p class="mb-4"><a href="tel:+91-9560267393">+91-9560267393</a></p>
 
                 <p class="mb-0 font-weight-bold">Email Address</p>
-                <p class="mb-0"><a href="mailto:aditya@atainfotech.in">aditya@atainfotech.in</a></p>
+                <p class="mb-0"><a href="mailto:contact@atainfotech.in">contact@atainfotech.in</a></p>
 
               </div>
 
@@ -125,6 +124,9 @@
 
       <div include-html="footer.html"></div>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-firestore.js"></script>
 
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/jquery-migrate-3.0.1.min.js"></script>
@@ -140,6 +142,36 @@
     <script src="js/w3data.js"></script>
     <script>
       includeHTML();
+    </script>
+
+    <script>
+      $("#contact_form").submit(function(e) {
+        e.preventDefault();
+        const data = {
+          first_name: $('#fname').val(),
+          last_name: $('#lname').val(),
+          email: $('#email').val(),
+          mobile: $('#mobile').val(),
+          message: $('#message').val(),
+        };
+
+        firebase.initializeApp({
+          apiKey: 'AIzaSyBhSM_uktY2ZJqioH0RS_Yf8BhLCkvjvA0\n',
+          projectId: 'ata-infotech'
+        });
+
+
+        firebase.firestore().collection("contacts").add(data)
+          .then(function(_) {
+            alert("Your request has been submitted. We will get back to you shortly");
+            $('#contact_form')[0].reset();
+          })
+          .catch(function(error) {
+            console.log(error);
+            alert("Some error occurred");
+          });
+      });
+
     </script>
 
     <script src="js/main.js"></script>
